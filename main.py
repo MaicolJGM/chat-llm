@@ -2,6 +2,7 @@ from fastapi import FastAPI, Body
 from getpass import getpass
 import os
 from langchain.llms import OpenAI
+from df_query import query
 
 os.environ['OPENAI_API_KEY'] = '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'
 app = FastAPI()
@@ -23,3 +24,7 @@ def get_question(question: str):
 @app.get('/question_ptg', tags=['question'])
 def get_question():
     return llm_davinci("what is iA?")
+
+@app.get('/query_df', tags=['question'])
+def get_question_df():
+    return query()
