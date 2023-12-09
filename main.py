@@ -3,11 +3,26 @@ from getpass import getpass
 import os
 from langchain.llms import OpenAI
 from df_query import query
+from fastapi.middleware.cors import CORSMiddleware
+
 
 os.environ['OPENAI_API_KEY'] = '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'
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Puedes reemplazar "*" con el dominio permitido en producción
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+
 app.title= "Llama2"
 app.verson = "1.0"
+
+
 
 
 
