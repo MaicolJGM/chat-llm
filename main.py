@@ -48,6 +48,9 @@ def get_question():
 @app.post('/query_df_body', tags=['question'])
 def get_question_df_body(data: Dict[str, Any], question:str):
     #d = json.load(data)
+
+    print("data",data)
+    print("question", question)
     columns = data["columns"]
     rows = data["rows"]
 
