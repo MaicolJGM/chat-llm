@@ -4,7 +4,7 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 #from langchain.agents import create
 import os
 import pandas as pd
-import pandas_gpt
+#import pandas_gpt
 
 os.environ['OPENAI_API_KEY'] = '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'
 
