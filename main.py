@@ -36,6 +36,11 @@ llm_davinci = OpenAI(
     temperature=0.3
     )
 
+@app.get('/test', tags=['question'])
+def get_test():
+    print("Print test function")
+    return "test_function"
+
 @app.get('/question', tags=['question'])
 def get_question(question: str):
     return llm_davinci(question)
