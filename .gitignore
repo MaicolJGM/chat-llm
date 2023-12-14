@@ -1,2 +1,6 @@
 /venv
 __pycache__
+key.pem
+cert.pem
+datos.csv
+test.py
