@@ -2,6 +2,8 @@ from fastapi import FastAPI, Body, Depends
 from getpass import getpass
 import os
 from langchain.llms import OpenAI
+import logging
+from fastapi.logger import logger
 
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -11,6 +13,11 @@ from df_query import query_df
 
 os.environ['OPENAI_API_KEY'] = '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'
 app = FastAPI()
+
+gunicorn_logger = logging.getLogger('gunicorn.error')
+logger.handlers = gunicorn_logger.handlers
+logger.setLevel(gunicorn_logger.level)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,6 +46,7 @@ llm_davinci = OpenAI(
 @app.get('/test', tags=['question'])
 def get_test():
     print("Print test function")
+    logging.info('Python HTTP trigger function processed a request.')
     return "test_function"
 
 @app.get('/question', tags=['question'])

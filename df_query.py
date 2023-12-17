@@ -13,8 +13,6 @@ import pandas as pd
 from langchain.llms import OpenAI
 
 
-
-
 def query_df(df, question):
     agent = create_pandas_dataframe_agent(
         ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613"),
