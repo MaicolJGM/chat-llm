@@ -63,6 +63,8 @@ def get_question():
 def get_question_df_body(data: Dict[str, Any], question:str):
     #d = json.load(data)
 
+    logging.info('Question')
+    logging.info(question)
     print("data",data)
     print("question", question)
     columns = data["columns"]
