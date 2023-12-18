@@ -13,10 +13,11 @@ from df_query import query_df
 
 os.environ['OPENAI_API_KEY'] = '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'
 app = FastAPI()
+logging.basicConfig(level=logging.DEBUG)
 
-gunicorn_logger = logging.getLogger('gunicorn.error')
-logger.handlers = gunicorn_logger.handlers
-logger.setLevel(gunicorn_logger.level)
+#gunicorn_logger = logging.getLogger('gunicorn.error')
+#logger.handlers = gunicorn_logger.handlers
+#logger.setLevel(gunicorn_logger.level)
 
 
 app.add_middleware(
