@@ -60,7 +60,7 @@ def get_question():
 
 
 @app.post('/query_df_body', tags=['question'])
-def get_question_df_body(data: Dict[str, Any], question:str):
+def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body() ):
     #d = json.load(data)
 
     logging.info('Question')
