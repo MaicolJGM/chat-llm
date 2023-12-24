@@ -4,3 +4,6 @@ key.pem
 cert.pem
 datos.csv
 test.py
+api_key.py
+generate_secret_key.py
+llama2.py

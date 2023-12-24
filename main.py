@@ -1,9 +1,11 @@
-from fastapi import FastAPI, Body, Depends
+from fastapi import FastAPI, Body, Depends, HTTPException, status, Security
+from fastapi.security import APIKeyHeader, APIKeyQuery
 from getpass import getpass
 import os
 from langchain.llms import OpenAI
 import logging
 from fastapi.logger import logger
+from settings import API_KEY_ACCES_LOCAL, API_KEY_AZURE_LLAMA
 
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -12,12 +14,18 @@ import pandas as pd
 from df_query import query_df
 
 os.environ['OPENAI_API_KEY'] = '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'
+
+
 app = FastAPI()
 logging.basicConfig(level=logging.DEBUG)
 
 #gunicorn_logger = logging.getLogger('gunicorn.error')
 #logger.handlers = gunicorn_logger.handlers
 #logger.setLevel(gunicorn_logger.level)
+
+
+api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
+
 
 
 app.add_middleware(
@@ -44,15 +52,30 @@ llm_davinci = OpenAI(
     temperature=0.3
     )
 
+def get_api_key(
+        api_key_header: str = Security(api_key_header),
+) -> str:
+    if api_key_header ==  API_KEY_ACCES_LOCAL:
+        return api_key_header
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or missing API Key",
+    )
+
 @app.get('/test', tags=['question'])
 def get_test():
     print("Print test function")
     logging.info('Python HTTP trigger function processed a request.')
-    return "test_function"
+    return "test_function_api_key:" + API_KEY_ACCES_LOCAL
 
 @app.get('/question', tags=['question'])
 def get_question(question: str):
     return llm_davinci(question)
+
+@app.get("/protected")
+def private(name:str, api_key: str = Security(get_api_key)):
+    """A private endpoint that requires a valid API key to be provided."""
+    return f"Private Endpoint. API Key: {api_key}"
 
 @app.get('/question_ptg', tags=['question'])
 def get_question():
