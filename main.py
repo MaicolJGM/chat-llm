@@ -12,6 +12,7 @@ import json
 from typing import List, Dict, Any
 import pandas as pd
 from df_query import query_df
+from llama2 import get_question_llama2
 
 os.environ['OPENAI_API_KEY'] = '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'
 
@@ -52,9 +53,7 @@ llm_davinci = OpenAI(
     temperature=0.3
     )
 
-def get_api_key(
-        api_key_header: str = Security(api_key_header),
-) -> str:
+def get_api_key(api_key_header: str = Security(api_key_header),) -> str:
     if api_key_header ==  API_KEY_ACCES_LOCAL:
         return api_key_header
     raise HTTPException(
@@ -68,9 +67,13 @@ def get_test():
     logging.info('Python HTTP trigger function processed a request.')
     return "test_function_api_key:" + API_KEY_ACCES_LOCAL
 
-@app.get('/question', tags=['question'])
-def get_question(question: str):
+@app.get('/question_openai', tags=['question'])
+def get_question(question: str, api_key: str = Security(get_api_key)):
     return llm_davinci(question)
+
+@app.get('/question_llama2', tags=['question'])
+def get_question(question: str, api_key: str = Security(get_api_key)):
+    return get_question_llama2(question)
 
 @app.get("/protected")
 def private(name:str, api_key: str = Security(get_api_key)):
