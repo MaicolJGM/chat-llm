@@ -14,7 +14,7 @@ import pandas as pd
 from df_query import query_df
 from llama2 import get_question_llama2
 
-os.environ['OPENAI_API_KEY'] = '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'
+#os.environ['OPENAI_API_KEY'] = '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'
 
 
 app = FastAPI()
