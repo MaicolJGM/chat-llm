@@ -6,7 +6,7 @@ import os
 import pandas as pd
 #import pandas_gpt
 
-os.environ['OPENAI_API_KEY'] = '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'
+#os.environ['OPENAI_API_KEY'] = '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'
 
 
 import pandas as pd
