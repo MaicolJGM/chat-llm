@@ -57,3 +57,5 @@ def get_question_llama2(question):
       # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
       print(error.info())
       print(error.read().decode("utf8", 'ignore'))
+
+print(get_question_llama2("what is marketing research"))

@@ -6,3 +6,7 @@ datos.csv
 test.py
 api_key.py
 generate_secret_key.py
+azure_api.py
+main copy.py
+test2.py
+test_azure_endpoint.py

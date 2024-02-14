@@ -1,3 +1,4 @@
+'''
 from langchain.agents.agent_types import AgentType
 from langchain.chat_models import ChatOpenAI
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
@@ -8,17 +9,24 @@ import pandas as pd
 
 os.environ['OPENAI_API_KEY'] = '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'
 
-
-import pandas as pd
 from langchain.llms import OpenAI
+'''
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+import pandas as pd
+import llm_models
 
 
-def query_df(df, question):
+def query_df(model_type, df, question):
+
+    if model_type == 'llama2':
+        model= llm_models.azure_llama_model()
+    elif model_type == 'gpt-35-turbo':
+        model= llm_models.azure_openai_model()
+
     agent = create_pandas_dataframe_agent(
-        ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613"),
+        model,
         df,
         verbose=True,
-        agent_type=AgentType.OPENAI_FUNCTIONS,
         return_intermediate_steps= False
     )
 
@@ -29,9 +37,8 @@ def query_df(df, question):
 def pandas_gpt_query():
     df = pd.read_csv('/titanic.csv')
 
-'''
+
 if __name__ == "__main__":
     df = pd.read_csv("titanic.csv", sep=',')
-    r = query_df(df, "how many rows are there?")
+    r = query_df('llama2',df, "how many rows are there in dataframe?")
     print(r)
-'''
