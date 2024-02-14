@@ -23,10 +23,10 @@ jsonpatch==1.33
 jsonpointer==2.4
 langchain==0.1.7
 langchain-community==0.0.20
-langchain-core==0.1.17
+langchain-core==0.1.23
 langchain-experimental==0.0.51
 langchain-openai==0.0.5
-langsmith==0.0.84
+langsmith==0.0.87
 marshmallow==3.20.1
 multidict==6.0.4
 mypy-extensions==1.0.0
