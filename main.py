@@ -77,15 +77,16 @@ def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), a
 
     logging.info('Question')
     logging.info(question)
-    print("data",data)
+    #print("data",data)
     print("question", question)
     columns = data["columns"]
     rows = data["rows"]
 
     # Crear un DataFrame con las filas y las columnas proporcionadas
     df = pd.DataFrame(rows, columns=[col['displayName'] for col in columns])
+    print(df)
     #df = pd.DataFrame(rows)
-    r= query_df("llama2",df, question)
+    r= query_df("gpt-35-turbo",df, question)
     #df.to_csv('datos.csv', index=False)
 
     return r
