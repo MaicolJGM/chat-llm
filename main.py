@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import json
 from typing import List, Dict, Any
 import pandas as pd
-from df_query import query_df
+from tools import query_df, llm_question
 
 
 app = FastAPI()
@@ -52,7 +52,7 @@ def get_api_key(api_key_header: str = Security(api_key_header),) -> str:
         detail="Invalid or missing API Key",
     )
 
-@app.post('/query_json_llama2', tags=['question'])
+@app.post('/query_json_llama2')
 def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), api_key: str = Security(get_api_key)):
     #d = json.load(data)
 
@@ -71,7 +71,7 @@ def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), a
 
     return r
 
-@app.post('/query_json_gpt35', tags=['question'])
+@app.post('/query_json_gpt35')
 def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), api_key: str = Security(get_api_key) ):
     #d = json.load(data)
 
@@ -90,3 +90,17 @@ def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), a
     #df.to_csv('datos.csv', index=False)
 
     return r
+
+@app.get('/question_gpt35', tags=['question'])
+def get_question_df_body(question:str , api_key: str = Security(get_api_key) ):
+    
+    result = llm_question("gpt-35-turbo", question)
+
+    return result
+
+@app.get('/question_llama2', tags=['question'])
+def get_question_df_body(question:str , api_key: str = Security(get_api_key) ):
+    
+    result = llm_question("llama2", question)
+
+    return result
