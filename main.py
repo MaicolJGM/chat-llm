@@ -91,6 +91,19 @@ def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), a
 
     return r
 
+@app.post('/query_json_openai')
+def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body(), api_key: str = Security(get_api_key) ):
+    
+    columns = data["columns"]
+    rows = data["rows"]
+
+    # Crear un DataFrame con las filas y las columnas proporcionadas
+    df = pd.DataFrame(rows, columns=[col['displayName'] for col in columns])
+
+    r= query_df("openai",df, question)
+
+    return r
+
 @app.get('/question_gpt35', tags=['question'])
 def get_question_df_body(question:str , api_key: str = Security(get_api_key) ):
     

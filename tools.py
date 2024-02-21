@@ -28,7 +28,8 @@ def query_df(model_type, df, question):
         model,
         df,
         verbose=True,
-        return_intermediate_steps= False
+        return_intermediate_steps= False,
+        agent_type= "openai-tools"
     )
 
     r = agent.run(question)
@@ -40,6 +41,8 @@ def get_model(model_type):
         model= llm_models.azure_llama_model()
     elif model_type == 'gpt-35-turbo':
         model= llm_models.azure_openai_model()
+    elif model_type == 'openai':
+        model= llm_models.openai_model()
 
     return model
 
@@ -70,7 +73,8 @@ def pandas_gpt_query():
 
 
 if __name__ == "__main__":
-    #df = pd.read_csv("titanic.csv", sep=',')
-    #r = query_df('llama2',df, "how many rows are there in dataframe?")
-    r = llm_question("llama2","Que es IA")
+    df = pd.read_csv("titanic.csv", sep=',')
+    r = query_df('openai',df, "how many rows are there in dataframe?")
+    
+    #r = llm_question("llama2","Que es IA")
     print(r)

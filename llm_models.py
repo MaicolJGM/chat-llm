@@ -8,14 +8,15 @@ from langchain_community.chat_models.azureml_endpoint import (
 #from langchain_community.chat_models.azureml_endpoint import AzureMLChatOnlineEndpoint
 #from langchain_community.chat_models.azureml_endpoint import LlamaChatContentFormatter
 from langchain_community.llms.azureml_endpoint import AzureMLEndpointApiType
-
+from langchain_openai import ChatOpenAI
 
 from langchain_openai import AzureChatOpenAI
 from settings import (
     API_KEY_AZURE_LLAMA,
     API_KEY_AZURE_OPENAI,
     AZURE_LLAMA_ENDPOINT,
-    AZURE_OPENAI_ENDPOINT
+    AZURE_OPENAI_ENDPOINT, 
+    API_KEY_OPENAI
 )
 
 def azure_llama_model():
@@ -41,5 +42,14 @@ def azure_openai_model():
         azure_deployment="gpt-35-turbo",
         temperature=0
     )
+
+    return model
+
+def openai_model():
+    os.environ["OPENAI_API_KEY"] = API_KEY_OPENAI
+
+    print("Key:", API_KEY_AZURE_OPENAI)
+    print("endpoint:", AZURE_OPENAI_ENDPOINT)
+    model = ChatOpenAI()
 
     return model
