@@ -9,6 +9,14 @@ from langchain.chains import LLMChain
 
 def query_df(model_type, df, question):
 
+    prefix = """
+    The following is a list of variable names that should be calculated differently. 
+    The result should not be added as a column of the dataframe; instead, the result should be returned.
+    Here are the names and how they should be calculated:
+    Porcentaje de rebote: sum the total of the 'visitsOnePage' column divided by the sum of the total of the 'countVisits' column.
+    Tasa de conversión ventas: sum the total of the 'visitsWithRevenue' column divided by the sum of the total of the 'countVisits' column, return en percent format.
+    """
+    
     model = get_model(model_type)
 
     agent = create_pandas_dataframe_agent(
@@ -16,9 +24,12 @@ def query_df(model_type, df, question):
         df,
         verbose=True,
         return_intermediate_steps= False,
-        agent_type= "openai-tools"
+        agent_type= "openai-tools",
+        prefix= prefix
     )
 
+    print("Model")
+    print(agent)
     r = agent.run(question)
 
     return r

@@ -1,9 +1,9 @@
 from locust import HttpUser, task, between
 from settings import API_KEY_ACCES_LOCAL
+import json
 
 
-
-data = {
+data2 = {
   "question": "how many rows are there?",
   "data": {
     "columns": [
@@ -509,6 +509,11 @@ data = {
 }
 }
 
+with open('data_testing.json', 'r') as archivo:
+    data = json.load(archivo)
+print(data)
+
+
 
 class MyUser(HttpUser):
     wait_time = between(5, 9)  # Tiempo de espera entre las tareas
@@ -527,7 +532,7 @@ class MyUser(HttpUser):
     '''
 
     @task
-    def query_json_gpt35(self):
+    def query_json_openai(self):
         headers = {"x-api-key": API_KEY_ACCES_LOCAL}
-        response = self.client.post("/query_json_gpt35", json=data, headers=headers)
+        response = self.client.post("/query_json_openai", json=data, headers=headers)
         print("Respuesta",response.text)  # Puedes imprimir la respuesta para verificar si es exitosa

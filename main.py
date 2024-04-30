@@ -117,3 +117,21 @@ def get_question_df_body(question:str , api_key: str = Security(get_api_key) ):
     result = llm_question("llama2", question)
 
     return result
+
+@app.get('/question_openai', tags=['question'])
+def get_question_df_body(question:str , api_key: str = Security(get_api_key) ):
+    
+    result = llm_question("openai", question)
+
+    return result
+
+@app.post('/test')
+def get_question_df_body(question:str = Body(), data: Dict[str, Any] = Body() ):
+    
+    columns = [col['displayName'] for col in data["columns"]]
+    rows = data["rows"]
+
+    # Crear un DataFrame con las filas y las columnas proporcionadas
+    df = pd.DataFrame(rows, columns=columns)
+    print("columns:",columns)
+    print(df['Rebote'].mean())
